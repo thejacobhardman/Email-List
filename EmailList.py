@@ -58,28 +58,39 @@ def Close_Program():
 ### The user wants to view the complete list of emails
 def Show_Emails():
 
-    # Adding global variables
-    global User_Input
-
     print(Email_List)
+
+    input("\nPlease press 'enter' to return to the main menu.")
+    cls()
 
 ### The user wants to add an email to the list
 def Add_Email():
 
     global User_Input
+    global User_Confirm
 
-    User_Input = input("\nPlease enter the email that you would like to add to the list: ")
+    while User_Confirm == False:
+        print("Please type 'exit' to return to the main menu.")
+        User_Input = input("\nPlease enter the email that you would like to add to the list: ")
+        if User_Input.upper() == "EXIT":
+            cls()
+            break
+        else:
+            Email_List.append(User_Input)
 
 ### The user wants to remove an email from the list
 def Remove_Email():
 
     # Adding global variables
     global User_Input
+    global User_Confirm
 
     print(Email_List)
     User_Input = input("\nPlease select the email that you would like to remove from the list: ")
 
 ### The main menu that allows the user access to the rest of the program
+### This is also the main loop that the program runs in.
+### Once the user selects an option they are taken to that part of the code before coming back here
 def Main_Menu():
 
     # Adding global variables
