@@ -13,6 +13,7 @@ def cls():
 
 ########################################################## GLOBAL VARIABLES ##############################################################
 
+# Main Boolean that keeps track of whether the user has closed the program
 Is_Running = True
 
 # Main menu that shows the user what they can do
@@ -101,16 +102,19 @@ def Main_Menu():
 
     User_Input = input("Please enter a number in order to perform an action: ")
 
-    if int(User_Input) == 0:
+    if User_Input == "0":
         Close_Program()
-    elif int(User_Input) == 1:
+    elif User_Input == "1":
         Show_Emails()
-    elif int(User_Input) == 2:
+    elif User_Input == "2":
         Add_Email()
-    elif int(User_Input) == 3:
+    elif User_Input == "3":
         Remove_Email()
     else:
+        cls()
         print("\nPlease enter a valid selection.")
+        User_Input = input("\nPlease press 'enter' to return to the main menu.")
+        cls()
 
 
 ########################################################### PROGRAM FLOW #################################################################
