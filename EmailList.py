@@ -59,7 +59,9 @@ def Close_Program():
 ### The user wants to view the complete list of emails
 def Show_Emails():
 
-    print(Email_List)
+    print("Current Subscribers:\n")
+    for Email in Email_List: # Prints the list of emails
+        print(str(Email_List.index(Email)) + ") " + Email)
 
     input("\nPlease press 'enter' to return to the main menu.")
     cls()
@@ -71,8 +73,8 @@ def Add_Email():
     global User_Confirm
 
     while User_Confirm == False:
-        print("Please type 'exit' to return to the main menu.")
-        User_Input = input("\nPlease enter the email that you would like to add to the list: ")
+        print("\nType 'exit' at anytime to return to the main menu.")
+        User_Input = input("Please enter the email that you would like to add to the list: ")
         if User_Input.upper() == "EXIT":
             cls()
             break
@@ -86,8 +88,19 @@ def Remove_Email():
     global User_Input
     global User_Confirm
 
-    print(Email_List)
-    User_Input = input("\nPlease select the email that you would like to remove from the list: ")
+    while User_Confirm == False:
+
+        for Email in Email_List: # Prints the list of emails
+            print(str(Email_List.index(Email)) + ") " + Email)
+
+        print("\nType 'exit' at anytime to return to the main menu.")
+        User_Input = input("Please select the email that you would like to remove from the list: ")
+
+        if User_Input.upper() == "EXIT":
+            cls()
+            break
+        else:
+            del Email_List[int(User_Input)]
 
 ### The main menu that allows the user access to the rest of the program
 ### This is also the main loop that the program runs in.
@@ -122,5 +135,3 @@ def Main_Menu():
 while Is_Running == True:
 
     Main_Menu()
-
-input("Press 'enter' to close the program.")
