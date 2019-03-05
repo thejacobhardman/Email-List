@@ -4,8 +4,14 @@
 # 2/20/19
 # Python Version 3.7.2
 
-# Importing the OS pkg
+# For this program I decided to use regular expressions in order to check for a valid email address.
+# I felt that this was far more effective and efficient than building up a string and parsing through it as we learned in class.
+# I found the regexes that I wanted to use on the internet at: http://emailregex.com/ 
+# However, I wrote all of the code that uses the regexes myself.
+
+# Importing pkgs
 import os
+import re
 
 # This function allows me to clear the screen, I got this code from Stack Overflow. It is Linux and Windows compatible.
 def cls():
@@ -44,6 +50,9 @@ def Close_Program():
     global User_Input
     global Is_Running
 
+    # Clearing the screen for readability
+    cls()
+
     print("\nAre you sure you want to close the program?")
     while User_Confirm == False:
         User_Input = input("\nPress '0' to close the program or '1' to go back: ")
@@ -59,9 +68,12 @@ def Close_Program():
 ### The user wants to view the complete list of emails
 def Show_Emails():
 
+    # Clearing the screen to improve readability
+    cls()
+
     print("Current Subscribers:\n")
     for Email in Email_List: # Prints the list of emails
-        print(str(Email_List.index(Email)) + ") " + Email)
+        print(str(Email_List.index(Email) + 1) + ") " + Email)
 
     input("\nPlease press 'enter' to return to the main menu.")
     cls()
@@ -73,13 +85,29 @@ def Add_Email():
     global User_Confirm
 
     while User_Confirm == False:
-        print("\nType 'exit' at anytime to return to the main menu.")
+        # Clearing the screen to improve readability
+        cls()
+        print("Type 'exit' at anytime to return to the main menu.")
         User_Input = input("Please enter the email that you would like to add to the list: ")
         if User_Input.upper() == "EXIT":
             cls()
             break
-        else:
-            Email_List.append(User_Input)
+        # Checks the user input against a regular expression 
+        elif not re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", User_Input):
+            # This code occurs when the regex check returns false
+            cls()
+            print("Please enter a valid email address.")
+            input("\nPress 'enter' to continue.")
+        elif re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", User_Input):
+            if len(Email_List) <= 9: # If the list of emails has 10 or less emails
+                # This code occurs when the regex check returns true
+                Email_List.append(User_Input)
+                print("\n" + User_Input + " was added to the list.")
+                input("\nPlease press 'enter' to continue.")
+            else: # if the list of emails has more than 10 emails
+                cls()
+                print("\nYou already have 10 emails in your subscriber list. Please delete at least one to add a new one.")
+                input("Press 'enter' to continue.")
 
 ### The user wants to remove an email from the list
 def Remove_Email():
@@ -90,8 +118,11 @@ def Remove_Email():
 
     while User_Confirm == False:
 
+        # Clearing the screen to improve readability
+        cls()
+
         for Email in Email_List: # Prints the list of emails
-            print(str(Email_List.index(Email)) + ") " + Email)
+            print(str(Email_List.index(Email) + 1) + ") " + Email)
 
         print("\nType 'exit' at anytime to return to the main menu.")
         User_Input = input("Please select the email that you would like to remove from the list: ")
@@ -99,8 +130,12 @@ def Remove_Email():
         if User_Input.upper() == "EXIT":
             cls()
             break
+        elif int(User_Input) <= len(Email_List):
+            del Email_List[int(User_Input) - 1]
         else:
-            del Email_List[int(User_Input)]
+            cls()
+            print("Please select a valid email to delete.")
+            input("Press 'enter' to continue.")
 
 ### The main menu that allows the user access to the rest of the program
 ### This is also the main loop that the program runs in.
@@ -128,7 +163,6 @@ def Main_Menu():
         print("\nPlease enter a valid selection.")
         User_Input = input("\nPlease press 'enter' to return to the main menu.")
         cls()
-
 
 ########################################################### PROGRAM FLOW #################################################################
 
